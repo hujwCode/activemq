@@ -14,6 +14,9 @@ public class JmsConsumer {
     public static final String QUEUE_NAME = "queue01";
 
     public static void main(String[] args) throws JMSException, IOException {
+
+        System.out.println("***我是2号消费者");
+
         // 1.创建连接工厂
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
         // 2.通过连接工厂，获得连接connection + 启动
@@ -53,5 +56,23 @@ public class JmsConsumer {
         messageConsumer.close();
         session.close();
         connection.close();
+
+        /**
+         * 1。 先生产，   只启动1号消费者。问题：1号消费者能消费消息吗？
+         *   Y
+         *
+         * 2。先生产，    先启动1号消费者再启动2号消费者，问题2号消费者还能消费消息吗？
+         *      2。1  1号可以消费     Y
+         *      2。2  2号可以消费吗？  N
+         *
+         * 3。先启动2个消费者，再生产6条消息，请问，消费情况如何？
+         *      3。1   2个消费者都有6条
+         *      3。2   先到先得，6条全给一个人
+         *      3。3   一人一半
+         *
+         */
+
+
+
     }
 }
